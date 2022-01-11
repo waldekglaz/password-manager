@@ -1,12 +1,25 @@
 from tkinter import *
+from tkinter import messagebox
 
 # ------------------------ SAVE PASSWORD -------------------------- #
+
+
 def save():
     website = website_input.get()
     user = user_input.get()
     password = password_input.get()
-    with open("data.txt", "a") as data_file:
-        data_file.write(f"{website} | {user} | {password}\n")
+    if len(password) < 2 or len(website) < 2:
+        messagebox.showinfo(title="Error", message="Fields cannot be empty!")
+    else:
+        is_ok = messagebox.askokcancel(
+            title=website,
+            message=f"These are the details entered:\nEmail: {user}\nPassword: {password}\nIs it ok to save?",
+        )
+        if is_ok:
+            with open("data.txt", "a") as data:
+                data.write(f"{website} | {user} | {password}\n")
+            website_input.delete(0, END)
+            password_input.delete(0, END)
 
 # ------------------------ UI SETUP -------------------------- #
 
